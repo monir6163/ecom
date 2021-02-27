@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class SubCategory extends Model
 {
     use SoftDeletes;
     use HasFactory;
 
-    function subcategory(){
+    function category(){
 
-        return $this->hasOne(SubCategory::class);
+        return $this->belongsTo(Category::class);
     }
 
-    function product(){
+    function sub_product(){
 
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->hasMany(Product::class, 'subcategory_id');
     }
 }

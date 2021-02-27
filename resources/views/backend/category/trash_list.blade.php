@@ -5,12 +5,12 @@
 @section('content')
 <div class="sl-mainpanel">
     <nav class="breadcrumb sl-breadcrumb">
-      <a class="breadcrumb-item" href="{{ url('dashboard') }}">Dashboard</a>
-      <span class="breadcrumb-item active">Category</span>
+      <a class="breadcrumb-item" href="index.html">Starlight</a>
+      <span class="breadcrumb-item active">Dashboard</span>
     </nav>
 
     <div class="sl-pagebody">
-      <h5 class="text-center">All Category ({{ $cat_count }})</h5>
+      <h5 class="text-center">All Trash Category ({{ $cat_count }})</h5>
         <div class="row row-sm mg-t-20">
           <div class="col-xl-12">
             <div class="card pd-20 pd-sm-40 form-layout form-layout-4">
@@ -32,44 +32,42 @@
               @endif
               <a href="{{ url('admin/category-add') }}" class="btn btn-pink" style = "float: right">Add New Category <i class="fa fa-plus"></i></a>
               <br>
-              <form action="{{ url('admin/category/multidelete') }}" method="POST">
+              <form action="{{ route('CategoryMultiRestore') }}" method="POST">
                 @csrf
                 CheckAll <input type="checkbox" id="checkAll" value="checkAll">&nbsp;
-                  <button type="submit" class="btn btn-danger">Delete All</button>
+                  <button type="submit" class="btn btn-danger">Restore All</button>
                 <div class="table-responsive">
                     <table class="table table-bordered table-primary mg-b-0" id="datatable1">
                       
                       <thead>
                         <th class="text-center">All</th>
-                        <th class="text-center">SL</th>
-                        <th class="text-center">Category_Name</th>
-                        <th class="text-center">Slug</th>
-                        <th class="text-center">Total Product</th>
-                        <th class="text-center">Created</th>
-                        <th class="text-center">Updated</th>
-                        <th class="text-center">Action</th>
+                          <th class="text-center">SL</th>
+                          <th class="text-center">Category_Name</th>
+                          <th class="text-center">Created</th>
+                          <th class="text-center">Deleted</th>
+                          <th class="text-center">Action</th>
                       </thead>
                       <tbody>
-                        @foreach($categories as $key => $data)
-                          <tr class="text-center">
-                            <td><input type="checkbox" name="delete[]" value="{{ $data->id }}"></td>
-                            {{-- <td>{{ $categories->firstItem() + $key }}</td> --}}
+                        @forelse($trashed_list as $key => $data)
+                        <tr class="text-center">
+                          <td><input type="checkbox" name="restore[]" value="{{ $data->id }}"></td>
+                            {{-- <td>{{ $trashed_list->firstItem() + $key }}</td> --}}
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $data->category_name }}</td>
-                            <td>{{ $data->slug }}</td>
-                            <td>{{ $data->product->count() }}</td>
                             <td>{{ $data->created_at != null ? $data->created_at->diffForHumans() : 'N/A' }}</td>
-                            <td>{{ $data->updated_at != null ? $data->updated_at->diffForHumans() : 'N/A' }}</td>
+                            <td>{{ $data->deleted_at != null ? $data->deleted_at->diffForHumans() : 'N/A' }}</td>
                             <td>
-                                <a class="btn btn-outline-info" href="{{ url('admin/category-edit') }}/{{ $data->id }}">Edit</a>
-                                <a class="btn btn-outline-danger" href="{{ url('admin/category-delete') }}/{{ $data->id }}">Delete</a>
+                                <a class="btn btn-outline-success" href="{{ url('admin/category-trashlist/restore/') }}/{{ $data->id }}">Restore</a>
+                                <a class="btn btn-outline-danger" href="{{ url('admin/category-trashlist/pdelete/') }}/{{ $data->id }}">PermanetDelete</a>
                             </td>
-                          </tr>
-                        @endforeach
-                        </form>
+                        </tr>
+                        @empty
+                        <td class="text-center text-danger" colspan="10">No Data Avaible</td>
+                        @endforelse
+                      </form>
                       </tbody>
                     </table>
-                    {{-- {{ $categories->links() }} --}}
+                    {{-- {{ $trashed_list->links() }} --}}
                   </div><!-- table-responsive -->
             </div><!-- card -->
           </div><!-- col-6 -->
@@ -87,4 +85,12 @@
       </div>
     </footer>
   </div>
+@endsection
+
+@section('restore_js')
+    <script>
+      $("#checkAll").click(function(){
+          $('input:checkbox').not(this).prop('checked', this.checked);
+      });
+    </script>
 @endsection

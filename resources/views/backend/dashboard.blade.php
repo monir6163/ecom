@@ -1,5 +1,7 @@
 @extends('backend.master')
-
+@section('dashboard_active')
+    active
+@endsection
 @section('content')
 <div class="sl-mainpanel">
     <nav class="breadcrumb sl-breadcrumb">
