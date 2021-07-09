@@ -5,8 +5,8 @@
 @section('content')
 <div class="sl-mainpanel">
     <nav class="breadcrumb sl-breadcrumb">
-      <a class="breadcrumb-item" href="index.html">Starlight</a>
-      <span class="breadcrumb-item active">Dashboard</span>
+      <a class="breadcrumb-item" href="{{ route('dashboard') }}">Dashboard</a>
+      {{-- <span class="breadcrumb-item active"></span> --}}
     </nav>
 
     <div class="sl-pagebody">

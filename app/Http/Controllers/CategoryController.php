@@ -50,6 +50,14 @@ class CategoryController extends Controller
     }
     function CategoryUpdate(Request $request){
 
+        $request->validate([
+            'category_name' => ['required', 'min:3', 'max:30', 'unique:categories'],
+            'slug' => ['required']
+        ],
+        [
+            'category_name.required' => 'The category name field is Required.',
+            'slug.required' => 'The category Slug field is Required.'
+        ]);
         $category = Category::findOrFail($request->category_id);
         $category->category_name = $request->category_name;
         $category->slug = $request->slug;

@@ -61,6 +61,8 @@
       </div><!-- card -->
 
     </div><!-- sl-pagebody -->
+    <?php
+  if (!isset($_GET['add'])) {?>
     <footer class="sl-footer">
       <div class="footer-left">
         <div class="mg-b-2">Copyright &copy; 2017. Starlight. All Rights Reserved.</div>
@@ -72,6 +74,8 @@
         <a target="_blank" class="pd-x-5" href="https://twitter.com/home?status=Starlight,%20your%20best%20choice%20for%20premium%20quality%20admin%20template%20from%20Bootstrap.%20Get%20it%20now%20at%20http%3A//themepixels.me/starlight"><i class="fa fa-twitter tx-20"></i></a>
       </div>
     </footer>
+    <?php } 
+    ?>
   </div><!-- sl-mainpanel -->
   <!-- ########## END: MAIN PANEL ########## -->
   @endsection

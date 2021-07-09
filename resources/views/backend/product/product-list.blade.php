@@ -32,7 +32,7 @@
                   </button>
               </div>
               @endif
-              <form action="{{ url('admin/subcategory/multidelete') }}" method="POST">
+              <form action="{{ route('ProductMultiDelete') }}" method="POST">
                 @csrf
                 CheckAll <input type="checkbox" id="checkAll" value="checkAll">
                 <button type="submit" class="btn btn-danger">Delete All</button>
@@ -47,6 +47,7 @@
                         <th class="text-center">SubCatName</th>
                         <th class="text-center">Price</th>
                         <th class="text-center">Image</th>
+                        <th class="text-center">MulImage</th>
                         <th class="text-center">Created</th>
                         <th class="text-center">Updated</th>
                         <th class="text-center">Action</th>
@@ -58,16 +59,21 @@
                             {{-- <td>{{ $products->firstItem() + $key }}</td> --}}
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $data->title }}</td>
-                            <td>{{ $data->brand_list->brand_name ?? 'N/A' }}</td>
+                            <td>{{ $data->brand->brand_name }}</td>
                             <td>{{ $data->category->category_name ?? 'N/A' }}</td>
                             <td>{{ $data->subcategory->subcategory_name ?? 'N/A' }}</td>
                             <td>{{ $data->price }}</td>
                             <td><a download href="{{ asset('images/'.$data->created_at->format('Y/m/').$data->id.'/'.$data->thumbnail) }}"><img width = 50 src="{{ asset('images/'.$data->created_at->format('Y/m/').$data->id.'/'.$data->thumbnail) }}" alt="{{ $data->title }}"></a></td>
+                            <td>
+                              @foreach ($data->product_gellary as $pgellary)
+                                <a download href="{{ asset('images/product-gellary/'.$data->created_at->format('Y/m/').$pgellary->product_id.'/'.$pgellary->image_name) }}"><img width = 30 src="{{ asset('images/product-gellary/'.$data->created_at->format('Y/m/').$pgellary->product_id.'/'.$pgellary->image_name) }}" alt="{{ $data->title }}"></a>  
+                              @endforeach
+                            </td>
                             <td>{{ $data->created_at != null ? $data->created_at->diffForHumans() : 'N/A' }}</td>
                             <td>{{ $data->updated_at != null ? $data->updated_at->diffForHumans() : 'N/A' }}</td>
                             <td>
                                 <a class="btn btn-outline-info" href="{{ route('ProductEdit', $data->id) }}">Edit</a>
-                                <a class="btn btn-outline-danger" href="{{ url('admin/subcategory-delete/') }}/{{ $data->id }}">Delete</a>
+                                <a class="btn btn-outline-danger" href="{{ route('ProductDelete' , $data->id) }}">Delete</a>
                             </td>
                           </tr>
                         @endforeach

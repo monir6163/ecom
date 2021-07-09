@@ -39,12 +39,14 @@
 
     <!-- Starlight CSS -->
     <link rel="stylesheet" href="{{ asset('/assets/css/starlight.css') }}">
+    
   </head>
-
+  <?php
+  if (!isset($_GET['add'])) {?>
   <body>
-
+    
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="sl-logo"><a href=""><i class="icon ion-android-star-outline"></i> starlight</a></div>
+    <div class="sl-logo"><a href="{{ route('dashboard') }}"><i class="icon ion-android-star-outline"></i> Dashboard</a></div>
     <div class="sl-sideleft">
       <div class="input-group input-group-search">
         <input type="search" name="search" class="form-control" placeholder="Search">
@@ -71,7 +73,7 @@
         <!-- Category-item -->
         <a href="#" class="sl-menu-link @yield('category_active')">
           <div class="sl-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+            <i class="menu-item-icon fa fa-certificate tx-20"></i>
             <span class="menu-item-label">Category</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
@@ -84,7 +86,7 @@
 <!-- SubCategory-item -->
         <a href="#" class="sl-menu-link @yield('subcategory_active')">
           <div class="sl-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+            <i class="menu-item-icon fa fa-bullseye tx-20"></i>
             <span class="menu-item-label">SubCategory</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
@@ -94,19 +96,65 @@
           <li class="nav-item"><a href="{{ url('admin/subcategory-list') }}" class="nav-link">SubCategory List</a></li>
           <li class="nav-item"><a href="{{ url('admin/subcategory-trashlist') }}" class="nav-link">SubCategory Trash</a></li>
         </ul>
+        <!---Product Brand--->
+        <a href="#" class="sl-menu-link @yield('brand_active')">
+          <div class="sl-menu-item">
+            <i class="menu-item-icon fa fa-bandcamp tx-20"></i>
+            <span class="menu-item-label">Product Brand</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- sl-menu-link -->
+        <ul class="sl-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ route('ProductBrandAdd') }}" class="nav-link">Product Brand Add</a></li>
+          <li class="nav-item"><a href="{{ route('ProductBrandList') }}" class="nav-link">Product Brand List</a></li>
+          <li class="nav-item"><a href="{{ route('ProductBrandTrashList') }}" class="nav-link">Product Trash</a></li>
+        </ul>
+        <!---Product Color--->
+        <a href="#" class="sl-menu-link @yield('color_active')">
+          <div class="sl-menu-item">
+            <i class="menu-item-icon fa fa-bandcamp tx-20"></i>
+            <span class="menu-item-label">Product Color</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- sl-menu-link -->
+        <ul class="sl-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ route('ProductColorAdd') }}" class="nav-link">Product Color Add</a></li>
+          <li class="nav-item"><a href="{{ route('ProductColorList') }}" class="nav-link">Product Color List</a></li>
+          <li class="nav-item"><a href="{{ route('ProductColorTrashList') }}" class="nav-link">Color Trash</a></li>
+        </ul>
+        <!---Product Size--->
+        <a href="#" class="sl-menu-link @yield('size_active')">
+          <div class="sl-menu-item">
+            <i class="menu-item-icon fa fa-bandcamp tx-20"></i>
+            <span class="menu-item-label">Product Size</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- sl-menu-link -->
+        <ul class="sl-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ route('ProductSizeAdd') }}" class="nav-link">Product Size Add</a></li>
+          <li class="nav-item"><a href="{{ route('ProductSizeList') }}" class="nav-link">Product Size List</a></li>
+          <li class="nav-item"><a href="{{ route('ProductSizeTrashList') }}" class="nav-link">Size Trash</a></li>
+        </ul>
         <!---Product Menu--->
         <a href="#" class="sl-menu-link @yield('product_active')">
           <div class="sl-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
-            <span class="menu-item-label">Product</span>
+            <i class="menu-item-icon fa fa-podcast tx-20"></i>
+            <span class="menu-item-label">All Product</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- sl-menu-link -->
         <ul class="sl-menu-sub nav flex-column">
           <li class="nav-item"><a href="{{ route('ProductAdd') }}" class="nav-link">Product Add</a></li>
           <li class="nav-item"><a href="{{ route('ProductList') }}" class="nav-link">Product List</a></li>
-          {{-- <li class="nav-item"><a href="{{ route('ProductTrash') }}" class="nav-link">Product Trash</a></li> --}}
+          <li class="nav-item"><a href="{{ route('ProductTrash') }}" class="nav-link">Product Trash</a></li>
         </ul>
+        {{-- product cupon --}}
+        <a href="{{ route('cupon') }}" class="sl-menu-link @yield('cupon_active')">
+          <div class="sl-menu-item">
+            <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
+            <span class="menu-item-label">Product Cupons</span>
+          </div><!-- menu-item -->
+        </a>
         <a href="mailbox.html" class="sl-menu-link">
           <div class="sl-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
@@ -321,9 +369,13 @@
       </div><!-- tab-content -->
     </div><!-- sl-sideright -->
     <!-- ########## END: RIGHT PANEL ########## --->
+    <?php
+      }
+    
+    ?>
 
     <!-- ########## START: MAIN PANEL ########## -->
-    @yield('content')
+     @yield('content')
     <!-- sl-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 

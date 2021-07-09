@@ -24,8 +24,8 @@
             @csrf
         <div class="form-layout">
           <div class="row mg-b-25">
-            <div class="col-lg-3"></div>
-            <div class="col-lg-6">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
               <div class="form-group">
                 <label for="title" class="form-control-label">Product Name: <span class="tx-danger">*</span></label>
                 <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" placeholder="Ex:Product Name" id="title">
@@ -99,6 +99,76 @@
                   </div>
                 @enderror
                 <div class="form-group">
+                    <div id="dynamic-field-1" class="form-group dynamic-field">
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <label for="color_name" class="font-weight-bold">Color <span class="tx-danger">*</span></label>
+                          <select class="form-control @error('color_name') is-invalid @enderror"" name="color_name[]" id="color_name">
+                            <option value>Select Color</option>
+                            @foreach ($colors as $color)
+                                <option value="{{ $color->id }}">{{ $color->color_name }}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                        @error('color_name')
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ $message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        @enderror
+                          {{-- <input type="text" id="field" class="form-control" name="color[]" /> --}}
+                        <div class="col-lg-3">
+                          <label for="size_name" class="font-weight-bold">Size <span class="tx-danger">*</span></label>
+                          <select class="form-control @error('size_name') is-invalid @enderror"" name="size_name[]" id="size_name">
+                            <option value>Select Size</option>
+                            @foreach ($sizes as $size)
+                                <option value="{{ $size->id }}">{{ $size->size_name }}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                        @error('size_name')
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ $message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        @enderror
+                          {{-- <input type="text" id="field" class="form-control" name="size[]" />
+                        </div> --}}
+                        <div class="col-lg-3">
+                          <label for="price" class="font-weight-bold">Price <span class="tx-danger">*</span></label>
+                          <input type="number" id="price" placeholder="Price" class="form-control" name="prices[]" />
+                        </div>
+                        @error('price')
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ $message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        @enderror
+                        <div class="col-lg-3">
+                          <label for="quantity" class="font-weight-bold">Quantity <span class="tx-danger">*</span></label>
+                          <input type="number" id="quantity" placeholder="Quantity" class="form-control" name="quantity[]" />
+                        </div>
+                        @error('quantity')
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ $message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        @enderror
+                      </div>
+                    </div>
+                    <div class="clearfix mt-4 mb-4">
+                      <button type="button" id="add-button" class="btn btn-secondary float-left text-uppercase shadow-sm"><i class="fa fa-plus fa-fw"></i> Add</button>
+                      <button type="button" id="remove-button" class="btn btn-secondary float-left text-uppercase ml-1" disabled="disabled"><i class="fa fa-minus fa-fw"></i> Remove</button>
+                  </div>
+                <div class="form-group">
                     <label for="price" class="form-control-label">Product Price: <span class="tx-danger">*</span></label>
                     <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ old('price') }}" placeholder="Ex:Product Price 500" id="price">
                 </div>
@@ -129,10 +199,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="images" class="form-control-label">Product Image (Recommended Image Size 300 * 300): <span class="tx-danger">*</span></label>
-                  <input multiple type="file" name="images" class="form-control @error('images') is-invalid @enderror" id="images" value="{{ old('images') }}" onchange="preview_images();">
+                  <label for="image" class="form-control-label">Product Image (Recommended Image Size 300 * 300): <span class="tx-danger">*</span></label>
+                  <input type="file"  id="images" name="image[]" onchange="preview_images();" multiple class="form-control @error('image') is-invalid @enderror" id="image_preview" value="{{ old('image') }}"/>
               </div>
-              @error('images')
+              @error('image')
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                   {{ $message }}
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -141,7 +211,7 @@
                 </div>
               @enderror
               <div class="form-group">
-                <label for="images" class="form-control-label">Preview Image: <span class="tx-danger">*</span></label>
+                <label for="image" class="form-control-label">Preview Image: <span class="tx-danger">*</span></label>
                 <div class="row" id="image_preview"></div>
               </div>
                 <div class="form-group">
@@ -170,7 +240,7 @@
                 @enderror
               </div>
             </div><!-- col-4 -->
-            <div class="col-lg-3"></div>
+            <div class="col-lg-1"></div>
           </div><!-- row -->
           <div class="form-layout-footer text-center">
             <button type="submit" class="btn btn-info mg-r-5 text-center" style = "cursor: pointer">Add Product</button>
@@ -193,6 +263,12 @@
     </footer>
   </div><!-- sl-mainpanel -->
   <!-- ########## END: MAIN PANEL ########## -->
+  <script>
+    function openWindow(){
+      window.open("{{ route('CategoryAdd') }}?add=N", "myWindow", 'width=1000, height=500');
+      window.close();
+    }
+  </script>
   @endsection
   @section('footer_js')
     <script>
@@ -229,8 +305,75 @@
       var total_file=document.getElementById("images").files.length;
       for(var i=0;i<total_file;i++)
       {
-        $('#image_preview').append("<div class='col-md-3'><img width= 50 class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+        $('#image_preview').append("<div class='col-md-3'><img width=100 class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
       }
       }
+    </script>
+    <script>
+      var buttonAdd = $("#add-button");
+      var buttonRemove = $("#remove-button");
+      var className = ".dynamic-field";
+      var count = 0;
+      var field = "";
+      var maxFields = "";
+
+      function totalFields() {
+        return $(className).length;
+      }
+
+      function addNewField() {
+        count = totalFields() + 1;
+        field = $("#dynamic-field-1").clone();
+        field.attr("id", "dynamic-field-" + count);
+        field.children("label").text("Field " + count);
+        field.find("input").val("");
+        $(className + ":last").after($(field));
+      }
+
+      function removeLastField() {
+        if (totalFields() > 1) {
+          $(className + ":last").remove();
+        }
+      }
+
+      function enableButtonRemove() {
+        if (totalFields() === 2) {
+          buttonRemove.removeAttr("disabled");
+          buttonRemove.addClass("shadow-sm");
+        }
+      }
+
+      function disableButtonRemove() {
+        if (totalFields() === 1) {
+          buttonRemove.attr("disabled", "disabled");
+          buttonRemove.removeClass("shadow-sm");
+        }
+      }
+
+      function disableButtonAdd() {
+        if (totalFields() === maxFields) {
+          buttonAdd.attr("disabled", "disabled");
+          buttonAdd.removeClass("shadow-sm");
+        }
+      }
+
+      function enableButtonAdd() {
+        if (totalFields() === (maxFields - 1)) {
+          buttonAdd.removeAttr("disabled");
+          buttonAdd.addClass("shadow-sm");
+        }
+      }
+
+      buttonAdd.click(function() {
+        addNewField();
+        enableButtonRemove();
+        disableButtonAdd();
+      });
+
+      buttonRemove.click(function() {
+        removeLastField();
+        disableButtonRemove();
+        enableButtonAdd();
+      });
     </script>
   @endsection

@@ -144,6 +144,25 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label for="image_name" class="form-control-label">Product Image (Recommended Image Size 300 * 300): <span class="tx-danger">*</span></label>
+                  @foreach ($product->product_gellary as $gellary)
+                  <input type="hidden" name="gellary_id[]" value="{{ $gellary->id }}">
+                  <input multiple type="file" name="image_name[]" class="form-control @error('image_name') is-invalid @enderror" id="image_name" value="{{ old('image_name') }}" onchange="document.getElementById('gimage_id{{ $gellary->id }}').src = window.URL.createObjectURL(this.files[0])">
+                  <div>
+                    <label for="image_name" class="form-control-label">Preview Image: <span class="tx-danger">*</span></label>
+                    <img id="gimage_id{{ $gellary->id }}" style = "border: 3px solid #000; padding: 5px" width="100" src="{{ asset('images/product-gellary/'.$gellary->created_at->format('Y/m/').$gellary->product_id.'/'.$gellary->image_name) }}" alt="{{ $product->title }}">
+                  </div>
+                  @endforeach
+              </div>
+              @error('image_name')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{ $message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              @enderror
+                <div class="form-group">
                     <label for="summery" class="form-control-label">Product Summery: <span class="tx-danger">*</span></label>
                     <textarea name="summery" id="summery" class="form-control @error('summery') is-invalid @enderror" placeholder="Enter Product Summery">{{ $product->summery ?? old('summery') }}</textarea>
                 </div>
@@ -222,4 +241,5 @@
             }
         })
     </script>  
+    
   @endsection
